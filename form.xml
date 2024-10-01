@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<notarization-form xmlns="http://example.com/online-notarization">
+    <applicant>
+        <name>John Doe</name>
+        <email>john.doe@example.com</email>
+    </applicant>
+    <contracts>
+        <contract>
+            <contract-title>Residential Lease Agreement</contract-title>
+            <contract-type>Lease</contract-type>
+        </contract>
+        <contract>
+            <contract-title>Service Agreement</contract-title>
+            <contract-type>Service</contract-type>
+        </contract>
+    </contracts>
+    <notary-public>
+        <name>Emily Johnson</name>
+        <email>emily.johnson@notaryservices.com</email>
+    </notary-public>
+    <notarization-date>2024-10-01</notarization-date>
+    <contract-agreement-document>contracts-agreement.pdf</contract-agreement-document>
+</notarization-form>

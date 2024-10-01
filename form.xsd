@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0"
+    targetNamespace="http://example.com/online-notarization"
+    xmlns="http://example.com/online-notarization"
+    elementFormDefault="qualified">
+
+    <!-- Root element -->
+    <xsd:element name="notarization-form" type="notarization-form-type" />
+
+    <!-- Complex Type for the notarization form -->
+    <xsd:complexType name="notarization-form-type">
+        <xsd:sequence>
+            <xsd:element name="applicant" type="person-type" />
+            <xsd:element name="contracts" type="contracts-type" />
+            <xsd:element name="notary-public" type="person-type" />
+            <xsd:element name="notarization-date" type="xsd:date" />
+            <xsd:element name="contract-agreement-document" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Complex Type for contracts, allowing multiple contracts -->
+    <xsd:complexType name="contracts-type">
+        <xsd:sequence>
+            <xsd:element name="contract" minOccurs="1" maxOccurs="unbounded" type="contract-type" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Complex Type for a single contract -->
+    <xsd:complexType name="contract-type">
+        <xsd:sequence>
+            <xsd:element name="contract-title" type="xsd:string" />
+            <xsd:element name="contract-type" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <!-- Simplified Complex Type for person (applicant or notary public) -->
+    <xsd:complexType name="person-type">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" />
+            <xsd:element name="email" type="xsd:string" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>
