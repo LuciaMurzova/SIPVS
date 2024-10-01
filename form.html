@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notarization Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        .form-section h2 {
+            margin-bottom: 10px;
+            color: #0056b3;
+            font-size: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .contracts-section {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .contract {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .contract:last-child {
+            border-bottom: none;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #003f8a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h1>Notarization Form</h1>
+
+    <!-- Applicant Section -->
+    <div class="form-section">
+        <h2>Applicant</h2>
+        <label for="applicant-name">Name:</label>
+        <input type="text" id="applicant-name" name="applicant-name" value="John Doe" required>
+
+        <label for="applicant-email">Email:</label>
+        <input type="email" id="applicant-email" name="applicant-email" value="john.doe@example.com" required>
+    </div>
+
+    <!-- Contracts Section -->
+    <div class="form-section contracts-section">
+        <h2>Contracts</h2>
+
+        <div class="contract">
+            <label for="contract-1-title">Contract 1 Title:</label>
+            <input type="text" id="contract-1-title" name="contract-1-title" value="Residential Lease Agreement" required>
+
+            <label for="contract-1-type">Contract 1 Type:</label>
+            <input type="text" id="contract-1-type" name="contract-1-type" value="Lease" required>
+        </div>
+
+        <div class="contract">
+            <label for="contract-2-title">Contract 2 Title:</label>
+            <input type="text" id="contract-2-title" name="contract-2-title" value="Service Agreement" required>
+
+            <label for="contract-2-type">Contract 2 Type:</label>
+            <input type="text" id="contract-2-type" name="contract-2-type" value="Service" required>
+        </div>
+    </div>
+
+    <!-- Notary Public Section -->
+    <div class="form-section">
+        <h2>Notary Public</h2>
+        <label for="notary-name">Name:</label>
+        <input type="text" id="notary-name" name="notary-name" value="Emily Johnson" required>
+
+        <label for="notary-email">Email:</label>
+        <input type="email" id="notary-email" name="notary-email" value="emily.johnson@notaryservices.com" required>
+    </div>
+
+    <!-- Notarization Date Section -->
+    <div class="form-section">
+        <h2>Notarization Date</h2>
+        <label for="notarization-date">Date:</label>
+        <input type="date" id="notarization-date" name="notarization-date" value="2024-10-01" required>
+    </div>
+
+    <!-- Contract Agreement Document Section -->
+    <div class="form-section">
+        <h2>Contract Agreement Document</h2>
+        <label for="contract-agreement-document">Document:</label>
+        <input type="text" id="contract-agreement-document" name="contract-agreement-document" value="contracts-agreement.pdf" required>
+    </div>
+
+    <!-- Submit Button -->
+    <div>
+        <button type="submit" class="submit-btn">Submit</button>
+    </div>
+</div>
+
+</body>
+</html>
+
+</style></head><body><h1>Rezervácia športovej haly</h1><hr/><div class="form"><p>Meno: <input type="text" disabled="true" value="Katka"/></p><p>Priezvisko: <input type="text" disabled="true" value="Bielcikova"/></p><p>Email: <input type="text" disabled="true" value="KB@slfiit.sk"/></p><p>Dátum rezervácie: <input type="date" disabled="true" value="2023-11-21"/></p><p>Zapožičanie nástrojov: <input type="text" disabled="true" value="true"/></p><div class="reservations-wrapper"><p>Zoznam rezervácií</p><div class="reservations"><div class="reservation"><p>Meno športovca: <input type="text" disabled="true" value=""/></p><p>Číslo kurtu: <input type="integer" disabled="true" value="5"/></p></div></div></div></div></body></html>
