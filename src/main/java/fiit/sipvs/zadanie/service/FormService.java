@@ -1,14 +1,21 @@
 package fiit.sipvs.zadanie.service;
 
 import fiit.sipvs.zadanie.model.NotarizationForm;
+
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import java.io.ByteArrayOutputStream;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import java.io.*;
 
 @Service
 public class FormService {
@@ -26,4 +33,24 @@ public class FormService {
         return new ByteArrayResource(xmlBytes);
     }
 
+    public void validateXml(NotarizationForm notarizationForm) throws SAXException, IOException, JAXBException {
+        // ulozenie xml do form2 a porovnanie noci xsd
+        String xmlFile = "form2.xml";
+
+        Resource xml = saveXml(notarizationForm);
+        InputStream inputStream = xml.getInputStream();
+        OutputStream outputStream = new FileOutputStream(xmlFile);
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = factory.newSchema(new File("form.xsd"));
+        Validator validator = schema.newValidator();
+        validator.validate(new StreamSource(new File(xmlFile)));
+    }
 }
