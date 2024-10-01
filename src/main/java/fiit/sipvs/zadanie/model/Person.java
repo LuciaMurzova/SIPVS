@@ -1,7 +1,9 @@
 package fiit.sipvs.zadanie.model;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder = { "name", "email" })
 public class Person {
 
     private String name;
