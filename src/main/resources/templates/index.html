@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notarization Form</title>
+    <title>Online Notarization Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -82,72 +82,127 @@
         .submit-btn:hover {
             background-color: #003f8a;
         }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
     </style>
+
+    <script>
+        function generateXML() {
+            const applicantName = document.getElementById('applicant-name').value;
+            const applicantEmail = document.getElementById('applicant-email').value;
+
+            const contractTitles = document.getElementsByName('contract-title');
+            const contractTypes = document.getElementsByName('contract-type');
+
+            const notaryName = document.getElementById('notary-name').value;
+            const notaryEmail = document.getElementById('notary-email').value;
+            const notarizationDate = document.getElementById('notarization-date').value;
+            const contractDocument = document.getElementById('contract-document').value;
+
+            let xml = `<?xml version="1.0" encoding="UTF-8" ?>\n`;
+            xml += `<notarization-form xmlns="http://example.com/online-notarization">\n`;
+            xml += `  <applicant>\n`;
+            xml += `    <name>${applicantName}</name>\n`;
+            xml += `    <email>${applicantEmail}</email>\n`;
+            xml += `  </applicant>\n`;
+
+            xml += `  <contracts>\n`;
+            for (let i = 0; i < contractTitles.length; i++) {
+                const title = contractTitles[i].value;
+                const type = contractTypes[i].value;
+                xml += `    <contract>\n`;
+                xml += `      <contract-title>${title}</contract-title>\n`;
+                xml += `      <contract-type>${type}</contract-type>\n`;
+                xml += `    </contract>\n`;
+            }
+            xml += `  </contracts>\n`;
+
+            xml += `  <notary-public>\n`;
+            xml += `    <name>${notaryName}</name>\n`;
+            xml += `    <email>${notaryEmail}</email>\n`;
+            xml += `  </notary-public>\n`;
+            xml += `  <notarization-date>${notarizationDate}</notarization-date>\n`;
+            xml += `  <contract-agreement-document>${contractDocument}</contract-agreement-document>\n`;
+            xml += `</notarization-form>`;
+
+            document.getElementById('xml-output').textContent = xml;
+        }
+
+        function addContractField() {
+            const contractsDiv = document.getElementById('contracts');
+            const contractHTML = `
+                <div class="contract">
+                    <label for="contract-title">Contract Title:</label>
+                    <input type="text" name="contract-title" required><br>
+                    <label for="contract-type">Contract Type:</label>
+                    <input type="text" name="contract-type" required><br>
+                    <hr>
+                </div>`;
+            contractsDiv.insertAdjacentHTML('beforeend', contractHTML);
+        }
+    </script>
 </head>
 <body>
 
 <div class="form-container">
-    <h1>Notarization Form</h1>
+    <h1>Online Notarization Form</h1>
 
-    <!-- Applicant Section -->
+    <!-- Applicant Information -->
     <div class="form-section">
         <h2>Applicant</h2>
         <label for="applicant-name">Name:</label>
-        <input type="text" id="applicant-name" name="applicant-name" value="John Doe" required>
-
+        <input type="text" id="applicant-name" required><br>
         <label for="applicant-email">Email:</label>
-        <input type="email" id="applicant-email" name="applicant-email" value="john.doe@example.com" required>
+        <input type="email" id="applicant-email" required><br>
     </div>
 
-    <!-- Contracts Section -->
+    <!-- Contracts Information -->
     <div class="form-section contracts-section">
         <h2>Contracts</h2>
-
-        <div class="contract">
-            <label for="contract-1-title">Contract 1 Title:</label>
-            <input type="text" id="contract-1-title" name="contract-1-title" value="Residential Lease Agreement" required>
-
-            <label for="contract-1-type">Contract 1 Type:</label>
-            <input type="text" id="contract-1-type" name="contract-1-type" value="Lease" required>
+        <div id="contracts">
+            <div class="contract">
+                <label for="contract-title">Contract Title:</label>
+                <input type="text" name="contract-title" required><br>
+                <label for="contract-type">Contract Type:</label>
+                <input type="text" name="contract-type" required><br>
+                <hr>
+            </div>
         </div>
-
-        <div class="contract">
-            <label for="contract-2-title">Contract 2 Title:</label>
-            <input type="text" id="contract-2-title" name="contract-2-title" value="Service Agreement" required>
-
-            <label for="contract-2-type">Contract 2 Type:</label>
-            <input type="text" id="contract-2-type" name="contract-2-type" value="Service" required>
-        </div>
+        <button type="button" onclick="addContractField()">Add Another Contract</button>
     </div>
 
-    <!-- Notary Public Section -->
+    <!-- Notary Public Information -->
     <div class="form-section">
         <h2>Notary Public</h2>
         <label for="notary-name">Name:</label>
-        <input type="text" id="notary-name" name="notary-name" value="Emily Johnson" required>
-
+        <input type="text" id="notary-name" required><br>
         <label for="notary-email">Email:</label>
-        <input type="email" id="notary-email" name="notary-email" value="emily.johnson@notaryservices.com" required>
+        <input type="email" id="notary-email" required><br>
     </div>
 
-    <!-- Notarization Date Section -->
+    <!-- Notarization Date and Document -->
     <div class="form-section">
         <h2>Notarization Date</h2>
         <label for="notarization-date">Date:</label>
-        <input type="date" id="notarization-date" name="notarization-date" value="2024-10-01" required>
-    </div>
-
-    <!-- Contract Agreement Document Section -->
-    <div class="form-section">
+        <input type="date" id="notarization-date" required><br>
         <h2>Contract Agreement Document</h2>
-        <label for="contract-agreement-document">Document:</label>
-        <input type="text" id="contract-agreement-document" name="contract-agreement-document" value="contracts-agreement.pdf" required>
+        <label for="contract-document">Document:</label>
+        <input type="text" id="contract-document" required><br>
     </div>
 
-    <!-- Submit Button -->
+    <!-- Generate XML Button -->
     <div>
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type="button" class="submit-btn" onclick="generateXML()">Generate XML</button>
     </div>
+
+    <!-- Display XML -->
+    <h2>Generated XML:</h2>
+    <pre id="xml-output"></pre>
 </div>
 
 </body>
