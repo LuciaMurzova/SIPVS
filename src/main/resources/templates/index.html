@@ -94,10 +94,10 @@
         <div class="form-section">
             <h2>Applicant</h2>
             <label for="applicant-name">Name:</label>
-            <input type="text" th:field="*{applicantName}" id="applicant-name" required>
+            <input type="text" th:field="*{applicant.name}" id="applicant-name" required>
 
             <label for="applicant-email">Email:</label>
-            <input type="email" th:field="*{applicantEmail}" id="applicant-email" required>
+            <input type="email" th:field="*{applicant.email}" id="applicant-email" required>
         </div>
 
         <!-- Contracts Section -->
@@ -123,10 +123,10 @@
         <div class="form-section">
             <h2>Notary Public</h2>
             <label for="notary-name">Name:</label>
-            <input type="text" th:field="*{notaryName}" id="notary-name" required>
+            <input type="text" th:field="*{notaryPublic.name}" id="notary-name" required>
 
             <label for="notary-email">Email:</label>
-            <input type="email" th:field="*{notaryEmail}" id="notary-email" required>
+            <input type="email" th:field="*{notaryPublic.email}" id="notary-email" required>
         </div>
 
         <!-- Notarization Date Section -->

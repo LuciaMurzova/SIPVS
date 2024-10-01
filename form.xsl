@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:ns="http://example.com/online-notarization"
+                xmlns:ns="http://sipvs.com/online-notarization"
                 exclude-result-prefixes="ns">
 
     <xsl:output method="html" encoding="UTF-8" indent="yes" />
@@ -64,7 +64,7 @@
                     padding: 10px;
                     border-bottom: 1px solid #ddd;
                     }
-                    
+
                     .contract:last-child {
                     border-bottom: none;
                     }
@@ -105,6 +105,18 @@
                         <h2>Contract Agreement Document</h2>
                         <p><strong>Document:</strong> <xsl:value-of select="ns:contract-agreement-document" /></p>
                     </div>
+
+                    <div class="form-section">
+                        <h2>Receive Confirmation Email</h2>
+                        <p>
+                            <strong>Would you like to receive a confirmation email?</strong>
+                            <xsl:choose>
+                                <xsl:when test="ns:receive-confirmation-email = 'true'">Yes</xsl:when>
+                                <xsl:otherwise>No</xsl:otherwise>
+                            </xsl:choose>
+                        </p>
+                    </div>
+
                 </div>
             </body>
         </html>

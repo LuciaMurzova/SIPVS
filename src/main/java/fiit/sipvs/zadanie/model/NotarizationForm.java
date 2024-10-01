@@ -1,42 +1,35 @@
 package fiit.sipvs.zadanie.model;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlRootElement(name = "notarization-form")
+@XmlType(propOrder = { "applicant", "contracts", "notaryPublic", "notarizationDate", "contractDocument", "receiveConfirmationEmail" })
 public class NotarizationForm {
 
-    private String applicantName;
-    private String applicantEmail;
+    private Person applicant;
     private List<Contract> contracts;
-    private String notaryName;
-    private String notaryEmail;
+    private Person notaryPublic;
     private String notarizationDate;
     private String contractDocument;
     private Boolean receiveConfirmationEmail;
 
     // Getters and Setters
 
-    @XmlElement(name = "applicant-name")
-    public String getApplicantName() {
-        return applicantName;
+    @XmlElement(name = "applicant")
+    public Person getApplicant() {
+        return applicant;
     }
 
-    public void setApplicantName(String applicantName) {
-        this.applicantName = applicantName;
+    public void setApplicant(Person applicant) {
+        this.applicant = applicant;
     }
 
-    @XmlElement(name = "applicant-email")
-    public String getApplicantEmail() {
-        return applicantEmail;
-    }
-
-    public void setApplicantEmail(String applicantEmail) {
-        this.applicantEmail = applicantEmail;
-    }
-
-    @XmlElement(name = "contracts")
+    @XmlElementWrapper(name = "contracts")
+    @XmlElement(name = "contract")
     public List<Contract> getContracts() {
         return contracts;
     }
@@ -45,22 +38,13 @@ public class NotarizationForm {
         this.contracts = contracts;
     }
 
-    @XmlElement(name = "notary-name")
-    public String getNotaryName() {
-        return notaryName;
+    @XmlElement(name = "notary-public")
+    public Person getNotaryPublic() {
+        return notaryPublic;
     }
 
-    public void setNotaryName(String notaryName) {
-        this.notaryName = notaryName;
-    }
-
-    @XmlElement(name = "notary-email")
-    public String getNotaryEmail() {
-        return notaryEmail;
-    }
-
-    public void setNotaryEmail(String notaryEmail) {
-        this.notaryEmail = notaryEmail;
+    public void setNotaryPublic(Person notaryPublic) {
+        this.notaryPublic = notaryPublic;
     }
 
     @XmlElement(name = "notarization-date")

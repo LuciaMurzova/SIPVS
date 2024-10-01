@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.0"
-    targetNamespace="http://example.com/online-notarization"
-    xmlns="http://example.com/online-notarization"
+    targetNamespace="http://sipvs.com/online-notarization"
+    xmlns="http://sipvs.com/online-notarization"
     elementFormDefault="qualified">
 
     <!-- Root element -->
@@ -15,6 +15,7 @@
             <xsd:element name="notary-public" type="person-type" />
             <xsd:element name="notarization-date" type="xsd:date" />
             <xsd:element name="contract-agreement-document" type="xsd:string" />
+            <xsd:element name="receive-confirmation-email" type="xsd:boolean" minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
 

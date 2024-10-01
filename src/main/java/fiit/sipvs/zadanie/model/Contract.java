@@ -1,9 +1,7 @@
 package fiit.sipvs.zadanie.model;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "contract")
 public class Contract {
 
     private String contractTitle;
