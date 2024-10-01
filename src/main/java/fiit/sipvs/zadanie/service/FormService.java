@@ -11,6 +11,8 @@ import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -52,5 +54,18 @@ public class FormService {
         Schema schema = factory.newSchema(new File("form.xsd"));
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(new File(xmlFile)));
+    }
+
+    public void transformToHTML(OutputStream output) throws TransformerException {
+        File xmlFile = new File("notarization.xml");
+        File xsltFile = new File("form.xsl");
+        Source xslt = new StreamSource(xsltFile);
+        Source xml = new StreamSource(xmlFile);
+
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Transformer transformer = factory.newTransformer(xslt);
+        Result html = new StreamResult(output);
+
+        transformer.transform(xml, html);
     }
 }

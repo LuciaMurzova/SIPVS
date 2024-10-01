@@ -3,6 +3,7 @@ package fiit.sipvs.zadanie.controller;
 import fiit.sipvs.zadanie.model.NotarizationForm;
 import fiit.sipvs.zadanie.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -70,5 +71,25 @@ public class FormController {
         }
 
         return "index";
+    }
+
+    @PostMapping("/transformToHtml")
+    public ResponseEntity<InputStreamResource> transformToHtml() throws Exception {
+        File htmlFile = File.createTempFile("output", ".html");
+
+        try (FileOutputStream fos = new FileOutputStream(htmlFile)) {
+            formService.transformToHTML(fos);
+        }
+
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(htmlFile));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=output.html");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(htmlFile.length())
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 }
