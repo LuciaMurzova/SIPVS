@@ -1,11 +1,14 @@
 package fiit.sipvs.zadanie.model;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 public class Contract {
 
     private String contractTitle;
     private String contractType;
+    private int id = 0;
+
 
     // Getters and Setters
 
@@ -25,6 +28,14 @@ public class Contract {
 
     public void setContractType(String contractType) {
         this.contractType = contractType;
+    }
+
+    @XmlAttribute(name = "contract-id")
+    public int getId() {
+        return id;
+    }
+    public void setId(int contractID) {
+        this.id = contractID;
     }
 }
 

@@ -32,6 +32,7 @@
             <xsd:element name="contract-title" type="xsd:string" />
             <xsd:element name="contract-type" type="xsd:string" />
         </xsd:sequence>
+        <xsd:attribute name="contract-id" type="xsd:integer" use="required" />
     </xsd:complexType>
 
     <!-- Simplified Complex Type for person (applicant or notary public) -->

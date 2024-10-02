@@ -1,6 +1,7 @@
 package fiit.sipvs.zadanie.controller;
 
 import fiit.sipvs.zadanie.model.NotarizationForm;
+import fiit.sipvs.zadanie.model.Contract;
 import fiit.sipvs.zadanie.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -18,6 +19,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import java.io.*;
+import java.util.List;
 
 
 @Controller
@@ -35,7 +37,11 @@ public class FormController {
     @PostMapping("/saveXml")
     public ResponseEntity<Resource> saveXml(@ModelAttribute NotarizationForm notarizationForm, Model model) {
         model.addAttribute("notarizationForm", notarizationForm);
-
+        //pridanie contract ID
+        List<Contract> contracts = notarizationForm.getContracts();
+        for (int i = 0; i < contracts.size(); i++) {
+            contracts.get(i).setId(i + 1);
+        }
         try {
             Resource resource = formService.saveXml(notarizationForm);
 
