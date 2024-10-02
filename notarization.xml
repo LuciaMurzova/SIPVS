@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<notarization-form xmlns="http://sipvs.com/online-notarization">
+    <applicant>
+        <name>erwou</name>
+        <email>aa@aa.com</email>
+    </applicant>
+    <contracts>
+        <contract contract-id="1">
+            <contract-title>asddas</contract-title>
+            <contract-type>asd</contract-type>
+        </contract>
+        <contract contract-id="2">
+            <contract-title>asdasd</contract-title>
+            <contract-type>asdsaddsad</contract-type>
+        </contract>
+    </contracts>
+    <notary-public>
+        <name>aaa</name>
+        <email>aa@aa.com</email>
+    </notary-public>
+    <notarization-date>2024-10-16</notarization-date>
+    <contract-agreement-document>asdsfed</contract-agreement-document>
+    <receive-confirmation-email>false</receive-confirmation-email>
+</notarization-form>
