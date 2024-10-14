@@ -22,6 +22,7 @@ import java.io.*;
 @Service
 public class FormService {
 
+
     public Resource saveXml(NotarizationForm notarizationForm) throws JAXBException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         JAXBContext jaxbContext = JAXBContext.newInstance(NotarizationForm.class);

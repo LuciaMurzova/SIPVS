@@ -12,15 +12,19 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
 import java.io.*;
 import java.util.List;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.core.io.UrlResource;
+
+import java.net.MalformedURLException;
 
 @Controller
 public class FormController {
@@ -97,5 +101,41 @@ public class FormController {
                 .contentLength(htmlFile.length())
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
+    }
+
+    @GetMapping("/notarization.xml")
+    public ResponseEntity<Resource> getNotarizationFile() throws MalformedURLException {
+        Path filePath = Paths.get("notarization.xml").toAbsolutePath().normalize();
+        Resource resource = new UrlResource(filePath.toUri());
+        return ResponseEntity.ok().body(resource);
+    }
+
+    @GetMapping("/form.xsd")
+    public ResponseEntity<Resource> getFormXsd() throws MalformedURLException {
+        Path filePath = Paths.get("form.xsd").toAbsolutePath().normalize();
+        Resource resource = new UrlResource(filePath.toUri());
+        return ResponseEntity.ok().body(resource);
+    }
+
+    @GetMapping("/form.xsl")
+    public ResponseEntity<Resource> getFormXsl() throws MalformedURLException {
+        Path filePath = Paths.get("form.xsl").toAbsolutePath().normalize();
+        Resource resource = new UrlResource(filePath.toUri());
+        return ResponseEntity.ok().body(resource);
+    }
+
+    @PostMapping("/sign")
+    public ResponseEntity<String> saveSignedXml(@RequestBody String signedXml) {
+        // Define where you want to save the signed XML file
+        File file = new File("signed-notarization.xml");
+
+        try (FileWriter writer = new FileWriter(file)) {
+            // Write the signed XML content to the file
+            writer.write(signedXml);
+            return ResponseEntity.ok("Signed XML saved successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving signed XML.");
+        }
     }
 }
