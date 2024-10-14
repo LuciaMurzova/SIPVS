@@ -7,6 +7,7 @@
     <script src="https://www.slovensko.sk/static/zep/dbridge_js/v1.0/config.js"></script>
     <script src="https://www.slovensko.sk/static/zep/dbridge_js/v1.0/dCommon.min.js"></script>
     <script src="https://www.slovensko.sk/static/zep/dbridge_js/v1.0/dSigXades.min.js"></script>
+    <script src="https://www.slovensko.sk/static/zep/dbridge_js/v1.0/dSigXadesBp.min.js"></script>
     <script src="https://www.slovensko.sk/static/zep/dbridge_js/v1.0/dSigXadesExtender.min.js"></script>
     <style>
         body {
@@ -157,10 +158,20 @@
         <input class="submit-btn" type="submit" value="Ulož XML" formaction="/saveXml">
         <input class="submit-btn" type="submit" value="Validuj XML voči XSD" formaction="/validateXml">
         <input class="submit-btn" type="submit" value="Transformuj XML do HTML" formaction="/transformToHtml">
-        <button type="button" onclick="signDocument()">Podpísať</button>
         <p><span th:text="${validationResult}"/></p>
-
     </form>
+    <div>
+
+        <div class="form-section">
+            <h2 for="file-xml" id="label-xml">Nahrať XML</h2>
+            <input type="file" id="file-xml" accept=".xml"/>
+        </div>
+        <div class="form-section">
+            <h2 for="file-pdf" id="label-pdf">Nahrať PDF</h2>
+            <input type="file" id="file-pdf" accept=".pdf"/>
+        </div>
+        <button id="sign-button" onclick="signDocument()"> Podpísať</button>
+    </div>
 </div>
 
 <script>
@@ -228,6 +239,19 @@
         }
     }
 
+    const readFileContent = (file, readMethod = 'Text', shouldSplit = false) => {
+        return new Promise((resolve) => {
+            if (file) {
+                let fileReader = new FileReader();
+                fileReader[`readAs${readMethod}`](file, "UTF-8");
+                fileReader.onload = () => {
+                    // If shouldSplit flag is true, split the result at comma
+                    resolve(shouldSplit ? fileReader.result.split(',')[1] : fileReader.result);
+                }
+            }
+        });
+    };
+
     function Callback(onSuccess) {
         this.onSuccess = onSuccess;
         this.onError = function (e) {
@@ -236,54 +260,65 @@
     }
 
     var signDocument = async () => {
-        const xmlContent = await loadContent('/notarization.xml');
         const xsdContent = await loadContent('/form.xsd');
         const xslContent = await loadContent('/form.xsl');
 
-        // Initialize ASiC Factory to create a new container
 
+        const fileElementIds = ['file-xml', 'file-pdf'];
+        const fileReadMethods = ['Text', 'DataURL'];
+        const splitFlags = [false, true];
 
-        // Now proceed with the signing process using dSigXadesJs
-        ditec.dSigXadesJs.deploy(null, new Callback(() => {
-            ditec.dSigXadesJs.initialize(new Callback(() => {
-                ditec.dSigXadesJs.addXmlObject2(
-                    "id_0",
-                    "XML formulár: ",
-                    xmlContent,
-                    xsdContent,
-                    "http://sipvs.com/online-notarization",
-                    "http://sipvs.com/online-notarization",
-                    xslContent,
-                    "http://sipvs.com/online-notarization",
-                    "HTML",
-                    new Callback(() => {
-                        ditec.dSigXadesJs.sign20(
-                            "id_signature",
-                            "http://www.w3.org/2001/04/xmlenc#sha256",
-                            "urn:oid:1.3.158.36061701.1.2.3",
-                            "id_signature_envelope",
-                            "http://sipvs.com/online-notarization",
-                            "dáta obálky",
-                            new Callback(() => {
-                                // Get signed XML with envelope
-                                ditec.dSigXadesJs.getSignedXmlWithEnvelope(new Callback((signedXml) => {
-                                    // Create a blob from the signedXml
-                                    var signedXmlBlob = new Blob([signedXml], {type: "text/plain"});
-                                    // Create a download link for the blob
-                                    const downloadLink = document.createElement("a");
-                                    downloadLink.href = URL.createObjectURL(signedXmlBlob);
-                                    downloadLink.download = "notarization.xml";
-                                    downloadLink.click();
+        // Create an array of promises to read all files
+        const fileReadPromises = fileElementIds.map((id, index) => {
+            const file = document.getElementById(id).files[0];
+            return readFileContent(file, fileReadMethods[index], splitFlags[index]);
+        });
 
-                                    // Revoke the URL to free up resources
-                                    URL.revokeObjectURL(downloadLink.href);
-                                }));
-                            })
-                        );
-                    })
-                );
+        Promise.all(fileReadPromises).then(([xmlContent, pdfContent]) => {
+            // Now proceed with the signing process using dSigXadesJs
+            ditec.dSigXadesJs.deploy(null, new Callback(() => {
+                ditec.dSigXadesJs.initialize(new Callback(() => {
+                    ditec.dSigXadesJs.addXmlObject2(
+                        "id_0",
+                        "XML formulár: ",
+                        xmlContent,
+                        xsdContent,
+                        "http://sipvs.com/online-notarization",
+                        "http://sipvs.com/online-notarization",
+                        xslContent,
+                        "http://sipvs.com/online-notarization",
+                        "HTML",
+                        new Callback(() => {
+                            ditec.dSigXadesJs.addPdfObject("id_1", "PDF súbor: ", pdfContent, "", "http://sipvs.com/online-notarization", 0, true, new Callback(() => {
+                                    ditec.dSigXadesJs.sign20(
+                                        "id_signature",
+                                        "http://www.w3.org/2001/04/xmlenc#sha256",
+                                        "urn:oid:1.3.158.36061701.1.2.3",
+                                        "id_signature_envelope",
+                                        "http://sipvs.com/online-notarization",
+                                        "dáta obálky",
+                                        new Callback(() => {
+                                            // Get signed XML with envelope
+                                            ditec.dSigXadesJs.getSignedXmlWithEnvelope(new Callback((signedXml) => {
+                                                // Create a blob from the signedXml
+                                                var signedXmlBlob = new Blob([signedXml], {type: "text/plain"});
+                                                // Create a download link for the blob
+                                                const downloadLink = document.createElement("a");
+                                                downloadLink.href = URL.createObjectURL(signedXmlBlob);
+                                                downloadLink.download = "notarization.xml";
+                                                downloadLink.click();
+
+                                                // Revoke the URL to free up resources
+                                                URL.revokeObjectURL(downloadLink.href);
+                                            }));
+                                        })
+                                    );
+                                })
+                            );
+                        }));
+                }));
             }));
-        }));
+        });
     };
 
 

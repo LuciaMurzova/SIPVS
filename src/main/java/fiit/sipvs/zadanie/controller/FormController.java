@@ -124,6 +124,22 @@ public class FormController {
         return ResponseEntity.ok().body(resource);
     }
 
+    @GetMapping("/form.pdf")
+    public ResponseEntity<Resource> getFormPDF() throws MalformedURLException {
+        Path filePath = Paths.get("form.pdf").toAbsolutePath().normalize();
+        Resource resource = new UrlResource(filePath.toUri());
+
+        if (resource.exists() || resource.isReadable()) {
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_PDF) // Set the content type to PDF
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"form.pdf\"") // Inline for display, or use "attachment" for download
+                    .body(resource);
+        } else {
+            throw new RuntimeException("File not found or not readable");
+        }
+    }
+
+
     @PostMapping("/sign")
     public ResponseEntity<String> saveSignedXml(@RequestBody String signedXml) {
         // Define where you want to save the signed XML file
