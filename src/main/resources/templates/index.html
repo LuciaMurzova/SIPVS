@@ -47,7 +47,7 @@
             margin-bottom: 5px;
         }
 
-        input, textarea {
+        input, textarea,button {
             width: 95%;
             padding: 10px;
             margin-bottom: 10px;
@@ -170,7 +170,7 @@
             <h2 for="file-pdf" id="label-pdf">Nahrať PDF</h2>
             <input type="file" id="file-pdf" accept=".pdf"/>
         </div>
-        <button id="sign-button" onclick="signDocument()"> Podpísať</button>
+        <button class="submit-btn" id="sign-button" onclick="signDocument()"> Podpísať</button>
     </div>
 </div>
 
@@ -330,8 +330,6 @@
                         }));
                 }));
             }));
-            // }));
-            // }));
         });
 
 
