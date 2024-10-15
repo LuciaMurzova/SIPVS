@@ -259,11 +259,6 @@
         }
     }
 
-    function stringToByteArray(str) {
-        const encoder = new TextEncoder();  // Use the TextEncoder API (defaults to UTF-8)
-        return encoder.encode(str);         // Returns a Uint8Array representing the string in bytes
-    }
-
     var signDocument = async () => {
         const xsdContent = await loadContent('/form.xsd');
         const xslContent = await loadContent('/form.xsl');
@@ -281,24 +276,22 @@
 
         Promise.all(fileReadPromises).then(([xmlContent, pdfContent]) => {
             // Now proceed with the signing process using dSigXadesJs
-            // idk_nieco = ditec.dSigXadesJs.deploy(null, new Callback(() => {
-            // ditec.dSigXadesJs.initialize(new Callback(() => {
             ditec.dSigXadesBpJs.deploy(null, new Callback(() => {
                 ditec.dSigXadesBpJs.initialize(new Callback(() => {
                     ditec.dSigXadesBpJs.addXmlObject(
-                        "id_0",                               // Object ID
-                        "xmlObjectDescription",                     // Object description
-                        "http://sipvs.com/online-notarization",                    // Object format identifier
-                        xmlContent,                           // XML data (content of the XML)
-                        "xdcIdentifier",                           // XDC Identifier
-                        "xdcVersion",                                // XDC Version
-                        xsdContent,                           // XSD content for validation
+                        "id_0",                                 // Object ID
+                        "xmlObjectDescription",                 // Object description
+                        "http://sipvs.com/online-notarization", // Object format identifier
+                        xmlContent,                             // XML data (content of the XML)
+                        "xdcIdentifier",                        // XDC Identifier
+                        "xdcVersion",                           // XDC Version
+                        xsdContent,                             // XSD content for validation
                         "http://sipvs.com/online-notarization", // XSD reference URI
-                        xslContent,                           // XSLT content for transformation
+                        xslContent,                             // XSLT content for transformation
                         "http://sipvs.com/online-notarization", // XSL reference URI
-                        "HTML",                               // XSL media destination type description
-                        "SK",                           // XSLT language
-                        "targetEnvironment",                            // XSL target environment
+                        "HTML",                                 // XSL media destination type description
+                        "SK",                                   // XSLT language
+                        "targetEnvironment",                    // XSL target environment
                         false,
                         "http://data.gov.sk/def/container/xmldatacontainer+xml/1.1",
                         new Callback(() => {
@@ -311,8 +304,8 @@
                                             // Get signed XML with envelope
                                             ditec.dSigXadesBpJs.getSignatureWithASiCEnvelopeBase64(new Callback((signedXml) => {
                                                 // Create a blob from the signedXml
-                                                let test = atob(signedXml)
-                                                const byte = stringToByteArray(test)
+                                                const test = atob(signedXml)
+                                                const byte = Uint8Array.from(Array.from(test).map(letter => letter.charCodeAt(0)));
                                                 var signedXmlBlob = new Blob([byte], {type: "application/vnd.etsi.asic-e+zip"});
                                                 // Create a download link for the blob
                                                 const downloadLink = document.createElement("a");
